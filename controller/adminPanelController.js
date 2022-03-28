@@ -1,4 +1,3 @@
-const route = require("../routes/index");
 const APModel = require("../model/adminPanelModel");
 
 /**
@@ -46,7 +45,7 @@ const getAllFSDetails = async (req,res) => {
     let start = (req.query.page-1)*req.query.limit;
     let end = req.query.page * req.query.limit;
     const FSDetails = await APModel.fetchAllFSDetails();
-    
+	  console.log('Results Size', FSDetails.length)  
     res.send({
       "status": 200,
       "data": FSDetails.slice(start,end)

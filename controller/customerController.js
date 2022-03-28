@@ -1,7 +1,7 @@
 const route = require("../routes/index");
 const customerModel = require("../model/customerModel");
 const util = require("../util");
-const { router } = require("../app");
+
 
 /**
  *
