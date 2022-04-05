@@ -45,10 +45,11 @@ const getAllFSDetails = async (req,res) => {
     let start = (req.query.page-1)*req.query.limit;
     let end = req.query.page * req.query.limit;
     const FSDetails = await APModel.fetchAllFSDetails();
-	  console.log('Results Size', FSDetails.length)  
+	  console.log('Results Size', FSDetails.slice(start, end).length);  
     res.send({
       "status": 200,
-      "data": FSDetails.slice(start,end)
+      "data": FSDetails.slice(start,end),
+      "total_records" : FSDetails.length
     })
   }
   catch (error) {

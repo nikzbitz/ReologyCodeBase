@@ -3,12 +3,12 @@ const route = require("../routes/index");
 const insertAssignmentDetails = (req) => {
   return route.query(`INSERT INTO home_inspection.assignment ( field_staff_assigned_fk,
     assignment_date,assignment_time_slot,assignment_time, name, 
-    phone,property_address, city, state, code,property_location,property_ownership,  property_type) 
+    phone,email,property_address, city, state, code,property_location,property_ownership,  property_type) 
     VALUES( '${req.body.field_staff_assigned_fk}','${
     req.body.assignment_date
   }','${req.body.assignment_time_slot}','${req.body.assignment_time}', '${
     req.body.name
-  }', '${req.body.phone}', 
+  }', '${req.body.phone}','${req.body.email}', 
     '${req.body.property_address1}, ${req.body.property_address2}, ${
     req.body.property_address3
   }',

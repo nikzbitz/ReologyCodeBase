@@ -41,11 +41,10 @@ const saveAssignmentDetails = async (req, res) => {
 const getAssignmentByFSID = async (req, res) => {
   try {
     const assignmentDetails = await customerModel.fetchAssignmentByFSID(req);
-    
-    res.send({
-      status: 200,
-      data: util.modifyResponse(assignmentDetails),
-    });
+assignmentDetails.forEach((element) => {
+      element.property_location = JSON.parse(element.property_location);
+    });   
+    res.send(util.modifyResponse(assignmentDetails));
   } catch (error) {
     console.log(`The error is ==> ${error}`);
   }

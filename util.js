@@ -34,6 +34,7 @@ renameKeys = (keysMap, obj) =>
   );
 
 return arr.map((element) => {
+    element.assignment_time = new Date(`${element.assignment_time}`).getTime();
   return renameKeys(keysMap, element);
 });
 
