@@ -56,19 +56,6 @@ const getAllFSDetails = async (req, res) => {
 }
 
 
-const getFSDetailsByID = async (req, res) => {
-  try {
-    const FSDetails = await adminModel.fetchFSDetailsByID(req);
-    res.send({
-      status: 200,
-      data: FSDetails
-    });
-  } catch (error) {
-    console.log(`The error is ==> ${error}`);
-  }
-}
-
-
 const savePropertyDetails = async (req, res) => {
   try {
     const insertQueryRes = await adminModel.insertPropertyDetails(req);
@@ -226,7 +213,6 @@ const getServiceCostByID = async (req, res) => {
 
 module.exports.saveFSDetails = saveFSDetails;
 module.exports.getAllFSDetails = getAllFSDetails;
-module.exports.getFSDetailsByID = getFSDetailsByID;
 module.exports.savePropertyDetails = savePropertyDetails;
 module.exports.removeProperty = removeProperty;
 module.exports.getAllProperties = getAllProperties;

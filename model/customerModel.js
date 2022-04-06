@@ -4,11 +4,11 @@ const insertAssignmentDetails = (req) => {
   return route.query(`INSERT INTO home_inspection.assignment ( field_staff_assigned_fk,
     assignment_date,assignment_time_slot,assignment_time, name, 
     phone,email,property_address, city, state, code,property_location,property_ownership,  property_type) 
-    VALUES( '${req.field_staff_assigned_fk}','${req.assignment_date
-    }','${req.assignment_time_slot}','${req.assignment_time}', '${req.name}', '${req.phone}',
-    '${req.email}','${req.property_address1}, ${req.property_address2}, ${req.property_address3}','${req.city}', 
-    '${req.state}', '${req.code}','${req.property_location.split("'").join('"')}',
-    ${req.property_ownership},'${req.property_type}')`);
+    VALUES( '${req.fieldStaffAssigned}','${req.assignmentDate
+    }','${req.assignmentTimeSlot}','${req.assignmentTime}', '${req.name}', '${req.phone}',
+    '${req.email}','${req.propertyAddress1}, ${req.propertyAddress2}, ${req.propertyAddress3}','${req.city}', 
+    '${req.state}', '${req.code}','${req.propertyLocation.split("'").join('"')}',
+    ${req.propertyOwnership},'${req.propertyType}')`);
 };
 
 const selectLatestID = () => {
@@ -68,6 +68,13 @@ const fetchAssignmentById = (req) => {
 };
 
 
+const fetchFSDetailsByID = (req) => {
+  return route.query(
+    `select * from home_inspection.field_staff where field_staff_empId = 
+    '${req.fs_id}'`
+  );
+};
+
 module.exports.insertAssignmentDetails = insertAssignmentDetails;
 module.exports.updateRes = updateRes;
 module.exports.updateAssignmentStatus = updateAssignmentStatus;
@@ -77,3 +84,4 @@ module.exports.fetchAssignmentByFSID = fetchAssignmentByFSID;
 module.exports.getAssignmentsByTime = getAssignmentsByTime;
 module.exports.updateDeclinedStatus = updateDeclinedStatus;
 module.exports.fetchAssignmentById = fetchAssignmentById;
+module.exports.fetchFSDetailsByID = fetchFSDetailsByID;

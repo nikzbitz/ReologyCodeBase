@@ -27,13 +27,6 @@ const fetchAllFSDetails = () => {
   return route.query(`select * from home_inspection.field_staff`);
 }
 
-const fetchFSDetailsByID = (req) => {
-  return route.query(
-    `select * from home_inspection.field_staff where field_staff_empId = 
-    '${req.field_staff_empId}'`
-  );
-};
-
 
 const insertPropertyDetails = (req) => {
   return route.query(`insert into property (property_type)
@@ -114,7 +107,6 @@ module.exports.insertFSDetails = insertFSDetails;
 module.exports.selectLatestID = selectLatestID;
 module.exports.updateFSRes = updateFSRes;
 module.exports.fetchAllFSDetails = fetchAllFSDetails;
-module.exports.fetchFSDetailsByID = fetchFSDetailsByID;
 module.exports.insertPropertyDetails = insertPropertyDetails;
 module.exports.updatePropRes = updatePropRes;
 module.exports.deletePropertyDetails = deletePropertyDetails;

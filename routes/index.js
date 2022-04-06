@@ -19,10 +19,11 @@ connection.connect()
 const query = util.promisify(connection.query).bind(connection);
 
 
+
+
 //admin panel routes
 router.post('/saveFSDetails', (req, res) => adminController.saveFSDetails(req.body, res));
 router.get("/getAllFSDetails", (req, res) => adminController.getAllFSDetails(req, res));
-router.post("/getFSDetailsByID", (req, res) => adminController.getFSDetailsByID(req.body, res));
 router.post("/savePropertyDetails", (req, res) => adminController.savePropertyDetails(req.body, res));
 router.post("/removeProperty", (req, res) => adminController.removeProperty(req.body, res));
 router.get("/getAllProperties", (req, res) => adminController.getAllProperties(req, res));

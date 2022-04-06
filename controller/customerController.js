@@ -1,6 +1,7 @@
 const route = require("../routes/index");
 const customerModel = require("../model/customerModel");
 const util = require("../util");
+const keysMap = require("../keysMap");
 
 const schedule = require('node-schedule');
 
@@ -49,12 +50,19 @@ const saveAssignmentDetails = async (req, res) => {
 
 const getAssignmentByFSID = async (req, res) => {
   try {
+    let resObj = {};
+    let fieldStaffDetails = (await customerModel.fetchFSDetailsByID(req))[0];
+    resObj.fieldStaffDetails = util.modifyKeys(keysMap.fieldStaffKeys, fieldStaffDetails);
+    resObj.assignmentDetails = [];
     const assignmentDetails = await customerModel.fetchAssignmentByFSID(req);
-    assignmentDetails.forEach((element) => {
-      element.property_location = JSON.parse(element.property_location);
-    });
     console.log('Assignment details ==>', JSON.stringify(assignmentDetails, null, 3));
-    res.send(util.modifyResponse(assignmentDetails));
+
+    resObj.assignmentDetails = assignmentDetails.map((element) => {
+      element.property_location = JSON.parse(element.property_location);
+      element.assignment_time = new Date(`${element.assignment_time}`).getTime();
+      return util.modifyKeys(keysMap.assignmentKeys, element);
+    })
+    res.send(resObj);
   } catch (error) {
     console.log(`The error is ==> ${error}`);
   }
