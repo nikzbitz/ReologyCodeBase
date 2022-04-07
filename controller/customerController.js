@@ -120,9 +120,21 @@ const getAssignmentById = async (req, res) => {
   });
 }
 
+const getFSDetailsByID = async (req, res) => {
+  const FSDetails = await customerModel.fetchFSDetailsByID(req);
+  res.send(FSDetails);
+}
+
+const getAvailableFS = async (req, res) => {
+  const FSDetails = await customerModel.fetchAvailableFS(req);
+  res.send(FSDetails);
+}
+
 //const getFSDetailsByID
 module.exports.saveAssignmentDetails = saveAssignmentDetails;
 module.exports.getAssignmentByFSID = getAssignmentByFSID;
 module.exports.updateAssignmentStatus = updateAssignmentStatus;
 module.exports.getAssignmentById = getAssignmentById;
+module.exports.getFSDetailsByID = getFSDetailsByID;
+module.exports.getAvailableFS = getAvailableFS;
 

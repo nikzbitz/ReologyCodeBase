@@ -41,6 +41,8 @@ router.post("/saveAssignmentDetails", (req, res) => customerController.saveAssig
 router.post("/getAssignmentByFSID", (req, res) => customerController.getAssignmentByFSID(req.body, res));
 router.post("/updateAssignmentStatus", (req, res) => customerController.updateAssignmentStatus(req.body, res));
 router.post("/getAssignmentByID", (req, res) => customerController.getAssignmentById(req.body, res));
+router.post("/getFSDetailsByID", (req, res) => customerController.getFSDetailsByID(req.body, res));
+router.post("/getAvailableFS", (req, res) => customerController.getAvailableFS(req.body, res));
 
 module.exports.router = router;
 module.exports.query = query;

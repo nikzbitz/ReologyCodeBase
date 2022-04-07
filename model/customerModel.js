@@ -3,12 +3,14 @@ const route = require("../routes/index");
 const insertAssignmentDetails = (req) => {
   return route.query(`INSERT INTO home_inspection.assignment ( field_staff_assigned_fk,
     assignment_date,assignment_time_slot,assignment_time, name, 
-    phone,email,property_address, city, state, code,property_location,property_ownership,  property_type) 
-    VALUES( '${req.fieldStaffAssigned}','${req.assignmentDate
-    }','${req.assignmentTimeSlot}','${req.assignmentTime}', '${req.name}', '${req.phone}',
-    '${req.email}','${req.propertyAddress1}, ${req.propertyAddress2}, ${req.propertyAddress3}','${req.city}', 
+    phone,email,property_address, city, state, code,property_location,property_ownership,
+    contact_address_location,service_id_fk,property_id_fk) 
+    VALUES( '${req.fieldStaffAssigned}','${req.assignmentDate}','${req.assignmentTimeSlot}',
+    '${req.assignmentTime}', '${req.name}', '${req.phone}','${req.email}','${req.propertyAddress1},
+     ${req.propertyAddress2}, ${req.propertyAddress3}','${req.city}', 
     '${req.state}', '${req.code}','${req.propertyLocation.split("'").join('"')}',
-    ${req.propertyOwnership},'${req.propertyType}')`);
+    ${req.propertyOwnership},'${req.contactAddressLocation.split("'").join('"')}',
+     '${req.serviceId.join(",")}','${req.propertyId}')`);
 };
 
 const selectLatestID = () => {
@@ -75,6 +77,20 @@ const fetchFSDetailsByID = (req) => {
   );
 };
 
+const fetchAvailableFS = (req) => {
+  return route.query(
+    `select *  from field_staff fs
+where fs.field_staff_zipcode = ${req.zipCode}  and 
+NOT EXISTS
+(select field_staff_assigned_fk  from assignment a
+where
+a.field_staff_assigned_fk = fs.field_staff_empId and
+a.assignment_date = '${req.assignmentDate}' and 
+a.assignment_time_slot = '${req.assignmentTimeSlot}')`
+  );
+};
+
+
 module.exports.insertAssignmentDetails = insertAssignmentDetails;
 module.exports.updateRes = updateRes;
 module.exports.updateAssignmentStatus = updateAssignmentStatus;
@@ -85,3 +101,4 @@ module.exports.getAssignmentsByTime = getAssignmentsByTime;
 module.exports.updateDeclinedStatus = updateDeclinedStatus;
 module.exports.fetchAssignmentById = fetchAssignmentById;
 module.exports.fetchFSDetailsByID = fetchFSDetailsByID;
+module.exports.fetchAvailableFS = fetchAvailableFS;
