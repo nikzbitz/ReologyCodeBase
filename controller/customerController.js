@@ -58,7 +58,10 @@ const getAssignmentByFSID = async (req, res) => {
     console.log('Assignment details ==>', JSON.stringify(assignmentDetails, null, 3));
 
     resObj.assignmentDetails = assignmentDetails.map((element) => {
-      element.property_location = JSON.parse(element.property_location);
+      element.property_location = element.property_location ? JSON.parse(element.property_location) :
+        element.property_location;
+      element.service_id_fk = element.service_id_fk ? element.service_id_fk.split(",") :
+        element.service_id_fk;
       element.assignment_time = new Date(`${element.assignment_time}`).getTime();
       return util.modifyKeys(keysMap.assignmentKeys, element);
     })
