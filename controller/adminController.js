@@ -1,4 +1,6 @@
 const adminModel = require("../model/adminModel");
+const keysMap = require("../keysMap");
+const util = require("../util");
 
 /**
  * 
@@ -97,10 +99,9 @@ const removeProperty = async (req, res) => {
 const getAllProperties = async (req, res) => {
   try {
     const propertyDetails = await adminModel.fetchAllProperties();
-    res.send({
-      status: 200,
-      data: propertyDetails
-    });
+    res.send(propertyDetails.map(element => {
+      return util.modifyKeys(keysMap.propertyKeys, element)
+    }));
   } catch (error) {
     console.log(`The error is ==> ${error}`);
   }
@@ -136,10 +137,9 @@ const saveService = async (req, res) => {
 const getAllServices = async (req, res) => {
   try {
     const serviceDetails = await adminModel.fetchAllServices();
-    res.send({
-      status: 200,
-      data: serviceDetails
-    });
+    res.send(serviceDetails.map(element => {
+      return util.modifyKeys(keysMap.serviceKeys, element)
+    }));
   } catch (error) {
     console.log(`The error is ==> ${error}`);
   }

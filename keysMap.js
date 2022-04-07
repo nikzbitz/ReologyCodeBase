@@ -50,7 +50,28 @@ const fieldStaffKeys = {
     "field_staff_assignment_completed": "FSAssignmentCompleted"
 }
 
+const propertyKeys = {
+    "property_id": "propertyId",
+    "property_identifier": "propertyIdentifier",
+    "property_type": "propertyType",
+    "property_status": "propertyStatus",
+    "date_added": "dateAdded"
+}
 
+
+const serviceKeys = {
+    "service_id": "serviceId",
+    "service_identifier": "serviceIdentifier",
+    "service_name": "serviceName",
+    "service_description": "serviceDescription",
+    "service_spaces": "serviceSpaces",
+    "service_components": "serviceComponents",
+    "service_cost": "serviceCost",
+    "service_status": "serviceStatus",
+    "date_added": "dateAdded"
+}
 
 module.exports.assignmentKeys = assignmentKeys;
 module.exports.fieldStaffKeys = fieldStaffKeys;
+module.exports.propertyKeys = propertyKeys;
+module.exports.serviceKeys = serviceKeys;
