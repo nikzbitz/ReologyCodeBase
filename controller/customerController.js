@@ -63,7 +63,7 @@ const getAssignmentByFSID = async (req, res) => {
       element.service_id_fk = element.service_id_fk ? element.service_id_fk.split(",") :
         element.service_id_fk;
       element.assignment_time = new Date(`${element.assignment_time}`).getTime();
-      element.assignment_date = new Date(`${element.assignment_date}`).getTime();
+      element.assignment_date_MS = new Date(`${element.assignment_date}`).getTime();
       return util.modifyKeys(keysMap.assignmentKeys, element);
     })
     res.send(resObj);
