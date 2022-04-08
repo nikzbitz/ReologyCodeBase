@@ -16,8 +16,11 @@ const assignmentKeys = {
     property_location: "propertyLocation",
     property_ownership: "propertyOwnership",
     contact_address_location: "contactAddressLocation",
-    property_type: "propertyType",
+    "service_id_fk": "serviceID",
+    "property_id_fk": "propertyID",
     rating_provided: "ratingProvided",
+    "date_added": "dateAdded",
+    assignment_date_MS: "assignmentDateMS",
 };
 
 
