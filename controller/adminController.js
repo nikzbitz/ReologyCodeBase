@@ -40,15 +40,16 @@ const saveFSDetails = async (req, res) => {
 
 const getAllFSDetails = async (req, res) => {
   try {
-    console.log(req.query.page);
-    console.log(req.query.limit);
     let start = (req.query.page - 1) * req.query.limit;
     let end = req.query.page * req.query.limit;
     const FSDetails = await adminModel.fetchAllFSDetails();
+    const FSDetailsRes = FSDetails.map((element) => {
+      return util.modifyKeys(keysMap.fieldStaffKeys, element)
+    });
     res.send({
       "status": 200,
-      "data": FSDetails.slice(start, end),
-      "total_records": FSDetails.length
+      "data": FSDetailsRes.slice(start, end),
+      "total_records": FSDetailsRes.length
     })
 
   }
@@ -160,9 +161,12 @@ const removeService = async (req, res) => {
 const getServiceDetailsByID = async (req, res) => {
   try {
     const serviceDetails = await adminModel.fetchServiceDetailsByID(req);
+    const serviceDetailsRes = serviceDetails.map(element => {
+      return util.modifyKeys(keysMap.serviceKeys, element)
+    });
     res.send({
       status: 200,
-      data: serviceDetails
+      data: serviceDetailsRes
     });
   } catch (error) {
     console.log(`The error is ==> ${error}`);
@@ -198,18 +202,6 @@ const addServiceCost = async (req, res) => {
   }
 }
 
-const getServiceCostByID = async (req, res) => {
-  try {
-    const costDetails = await adminModel.fetchServiceCostByID(req);
-    res.send({
-      status: 200,
-      data: costDetails
-    });
-  } catch (error) {
-    console.log(`The error is ==> ${error}`);
-  }
-}
-
 
 module.exports.saveFSDetails = saveFSDetails;
 module.exports.getAllFSDetails = getAllFSDetails;
@@ -222,4 +214,3 @@ module.exports.removeService = removeService;
 module.exports.getServiceDetailsByID = getServiceDetailsByID;
 module.exports.addServiceDetails = addServiceDetails;
 module.exports.addServiceCost = addServiceCost;
-module.exports.getServiceCostByID = getServiceCostByID;
