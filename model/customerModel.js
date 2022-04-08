@@ -90,6 +90,11 @@ a.assignment_time_slot = '${req.assignmentTimeSlot}')`
   );
 };
 
+const insertRating = (assId) => {
+  return route.query(`update assignment set rating_provided = 
+  '${(Math.random() * (5.0 - 3.8) + 3.8).toFixed(2)}' 
+  where assignment_identifier = '${assId}'`)
+}
 
 module.exports.insertAssignmentDetails = insertAssignmentDetails;
 module.exports.updateRes = updateRes;
@@ -102,3 +107,4 @@ module.exports.updateDeclinedStatus = updateDeclinedStatus;
 module.exports.fetchAssignmentById = fetchAssignmentById;
 module.exports.fetchFSDetailsByID = fetchFSDetailsByID;
 module.exports.fetchAvailableFS = fetchAvailableFS;
+module.exports.insertRating = insertRating;

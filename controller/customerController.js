@@ -59,10 +59,11 @@ const getAssignmentByFSID = async (req, res) => {
 
     resObj.assignmentDetails = assignmentDetails.map((element) => {
       element.property_location = element.property_location ? JSON.parse(element.property_location) :
-        element.property_location;
+        { "latitude": "", "longitude": "" };
       element.service_id_fk = element.service_id_fk ? element.service_id_fk.split(",") :
         element.service_id_fk;
       element.assignment_time = new Date(`${element.assignment_time}`).getTime();
+      element.assignment_date = new Date(`${element.assignment_date}`).getTime();
       return util.modifyKeys(keysMap.assignmentKeys, element);
     })
     res.send(resObj);
@@ -80,23 +81,39 @@ const updateAssignmentStatus = async (req, res) => {
     if (req.assignment_status === "Accepted" || req.assignment_status === "Completed") {
 
       const getAssignmentsByTime = await customerModel.getAssignmentsByTime(req);
+      if (getAssignmentsByTime.length > 0) {
+        const updateNextDueStatus = await customerModel.updateAssignmentStatus('Next Due', 2,
+          getAssignmentsByTime[0].assignment_identifier);
 
-      const updateNextDueStatus = await customerModel.updateAssignmentStatus('Next Due', 2,
-        getAssignmentsByTime[0].assignment_identifier);
+        if (updateNextDueStatus.affectedRows) {
 
-      if (updateNextDueStatus.affectedRows) {
+          getAssignmentsByTime.forEach((value, index) => {
+            if (index < 1) return;
+            arr.push(`assignment_identifier = '${value.assignment_identifier}'`);
+          });
 
-        getAssignmentsByTime.forEach((value, index) => {
-          if (index < 1) return;
-          arr.push(`assignment_identifier = '${value.assignment_identifier}'`);
-        });
+          let whereClause = arr.join(" OR ");
 
-        let whereClause = arr.join(" OR ");
-
-        const updateAllAssignmentStatus =
-          await customerModel.updateAllAssignmentStatus(whereClause);
-        if (updateAllAssignmentStatus.affectedRows) {
-          res.send(util.AssignStatusUpdateSuccessRes);
+          const updateAllAssignmentStatus =
+            await customerModel.updateAllAssignmentStatus(whereClause);
+          if (updateAllAssignmentStatus.affectedRows) {
+            if (req.assignment_status === "Completed") {
+              const ratingRes = customerModel.insertRating(req.assignment_identifier);
+              if (ratingRes.affectedRows) {
+                res.send(util.AssignStatusUpdateSuccessRes);
+              }
+            }
+            res.send(util.AssignStatusUpdateSuccessRes);
+          }
+        }
+      }
+      else {
+        if (req.assignment_status === "Completed") {
+          const ratingRes = await customerModel.insertRating(req.assignment_identifier);
+          console.log(ratingRes);
+          if (ratingRes.affectedRows) {
+            res.send(util.AssignStatusUpdateSuccessRes);
+          }
         }
       }
     }
