@@ -25,6 +25,12 @@ schedule.scheduleJob('32 22 * * *', () => {
 const saveAssignmentDetails = async (req, res) => {
   try {
     console.log(req);
+    req.assignmentDate = (new Date(req.assignmentDate).toISOString()).split('T')[0];
+    req.assignmentTime = req.assignmentDate + ' ' + (new Date(req.assignmentTime).toString().split(" ")[4]);
+
+    console.log(`ASSIGNMENT Date ==> ${req.assignmentDate}`);
+    console.log(`ASSIGNMENT TIME ==> ${req.assignmentTime}`);
+
     const insertQueryRes = await customerModel.insertAssignmentDetails(req);
     console.log(insertQueryRes.affectedRows);
     if (insertQueryRes.affectedRows) {
@@ -147,7 +153,10 @@ const getFSDetailsByID = async (req, res) => {
 
 const getAvailableFS = async (req, res) => {
   const FSDetails = await customerModel.fetchAvailableFS(req);
-  res.send(FSDetails);
+  const FSDetailsRes = FSDetails.map((element) => {
+    return util.modifyKeys(keysMap.fieldStaffKeys, element)
+  });
+  res.send(FSDetailsRes);
 }
 
 //const getFSDetailsByID
