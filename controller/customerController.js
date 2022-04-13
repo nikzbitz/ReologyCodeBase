@@ -25,7 +25,8 @@ schedule.scheduleJob('32 22 * * *', () => {
 const saveAssignmentDetails = async (req, res) => {
   try {
     console.log(req);
-    req.assignmentDate = (new Date(req.assignmentDate).toISOString()).split('T')[0];
+    console.log('INITIAL DATE', new Date(req.assignmentDate).toString());
+    req.assignmentDate = util.formatDate(new Date(req.assignmentDate).toString());
     req.assignmentTime = req.assignmentDate + ' ' + (new Date(req.assignmentTime).toString().split(" ")[4]);
 
     console.log(`ASSIGNMENT Date ==> ${req.assignmentDate}`);
