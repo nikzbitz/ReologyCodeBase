@@ -34,24 +34,18 @@ const fetchAssignmentByFSID = (req) => {
 const updateAssignmentStatus = (status, statusCode, assId) => {
   return route.query(
     `update assignment set assignment_status = '${status}',
-      status_code = '${statusCode}'
+      status_code = ${statusCode}
         where assignment_identifier = '${assId}'`
   );
 };
 
 const getAssignmentsByTime = (req) => {
-	console.log(`select assignment_id ,assignment_identifier ,assignment_status ,assignment_date ,assignment_time_slot ,assignment_time
-from assignment where field_staff_assigned_fk = '${req.field_staff_id}' and
-(assignment_status = 'Accepted' or assignment_status = 'Next Due') order by assignment_time`);
   return route.query(`select assignment_id ,assignment_identifier ,assignment_status ,assignment_date ,assignment_time_slot ,assignment_time 
 from assignment where field_staff_assigned_fk = '${req.field_staff_id}' and 
 (assignment_status = 'Accepted' or assignment_status = 'Next Due') order by assignment_time`);
 }
 
 const updateAllAssignmentStatus = (whereClause) => {
-	console.log(`UPDATE assignment
-SET assignment_status='Accepted', status_code = 1
-WHERE ${whereClause}`);
   return route.query(`UPDATE assignment
 SET assignment_status='Accepted', status_code = 1
 WHERE ${whereClause}`);
@@ -96,11 +90,48 @@ a.assignment_time_slot = '${req.assignmentTimeSlot}')`
   );
 };
 
-const insertRating = (assId) => {
-  return route.query(`update assignment set rating_provided = 
-  '${(Math.random() * (5.0 - 3.8) + 3.8).toFixed(2)}' 
-  where assignment_identifier = '${assId}'`)
+const increaseAssignmentNumber = (fsID, fieldName) => {
+  return route.query(`UPDATE field_staff fs 
+SET fs.${fieldName} = fs.${fieldName} + 1
+where fs.field_staff_empId = '${fsID}'`)
 }
+
+const reduceAssignmentNumber = (fsID, fieldName) => {
+  return route.query(`UPDATE field_staff fs
+  SET fs.${fieldName} = fs.${fieldName} - 1
+  where fs.field_staff_empId = '${fsID}'`)
+}
+
+const insertRating = (fsId) => {
+  return route.query(`update field_staff set field_staff_avg_rating = 
+  '${(Math.random() * (5.0 - 3.8) + 3.8).toFixed(2)}' 
+  where field_staff_empId = '${fsId}'`)
+}
+
+const insertCustomerDetails = (req) => {
+  return route.query(`INSERT INTO home_inspection.customer (customer_firstname, 
+    customer_lastname,customer_email,customer_phone,customer_address,customer_password) 
+    VALUES( '${req.firstName}','${req.lastName}','${req.email}','${req.phone}',
+    ${req.password})`);
+};
+
+
+const updateCustomerRes = (custId, lastInsertedId) => {
+  return route.query(`UPDATE home_inspection.customer SET 
+    customer_identifier='${custId}' WHERE customer_id=${lastInsertedId}`);
+};
+
+const checkAuthenticatedUser = (req) => {
+  return route.query(`select customer_id,customer_identifier,customer_firstname,customer_lastname,
+  customer_email,customer_phone from home_inspection.customer where 
+  customer_phone = '${req.phone}' and customer_password = '${req.password}'`);
+};
+
+const updateFSPassword = (req) => {
+  return route.query(`update home_inspection.field_staff SET 
+  field_staff_password = '${req.password}' where field_staff_empId = '${req.fieldStaffId}'`);
+};
+
 
 module.exports.insertAssignmentDetails = insertAssignmentDetails;
 module.exports.updateRes = updateRes;
@@ -114,3 +145,9 @@ module.exports.fetchAssignmentById = fetchAssignmentById;
 module.exports.fetchFSDetailsByID = fetchFSDetailsByID;
 module.exports.fetchAvailableFS = fetchAvailableFS;
 module.exports.insertRating = insertRating;
+module.exports.increaseAssignmentNumber = increaseAssignmentNumber;
+module.exports.reduceAssignmentNumber = reduceAssignmentNumber;
+module.exports.insertCustomerDetails = insertCustomerDetails;
+module.exports.updateCustomerRes = updateCustomerRes;
+module.exports.checkAuthenticatedUser = checkAuthenticatedUser;
+module.exports.updateFSPassword = updateFSPassword;

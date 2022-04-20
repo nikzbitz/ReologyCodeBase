@@ -74,7 +74,18 @@ const serviceKeys = {
     "date_added": "dateAdded"
 }
 
+
+const customerKeys = {
+    customer_id: "customerId",
+    customer_identifier: "customerIdentifier",
+    customer_firstname: "customerFirstname",
+    customer_lastname: "customerLastname",
+    customer_email: "customerEmail",
+    customer_phone: "customerPhone"
+}
+
 module.exports.assignmentKeys = assignmentKeys;
 module.exports.fieldStaffKeys = fieldStaffKeys;
 module.exports.propertyKeys = propertyKeys;
 module.exports.serviceKeys = serviceKeys;
+module.exports.customerKeys = customerKeys;

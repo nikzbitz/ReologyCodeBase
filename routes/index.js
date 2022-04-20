@@ -42,6 +42,14 @@ router.post("/updateAssignmentStatus", (req, res) => customerController.updateAs
 router.post("/getAssignmentByID", (req, res) => customerController.getAssignmentById(req.body, res));
 router.post("/getFSDetailsByID", (req, res) => customerController.getFSDetailsByID(req.body, res));
 router.post("/getAvailableFS", (req, res) => customerController.getAvailableFS(req.body, res));
+router.post("/saveFSPassword", (req, res) => customerController.saveFSPassword(req.body, res));
+router.post("/saveCustomerDetails", (req, res) => customerController.saveCustomerDetails(req.body, res));
+router.post("/customerLogin", (req, res) => customerController.customerLogin(req.body, res));
+router.get("/customerLogout", (req, res) => res.send({
+  "status": 200,
+  "message": 'Customer logged out successfully'
+}));
+
 
 module.exports.router = router;
 module.exports.query = query;
