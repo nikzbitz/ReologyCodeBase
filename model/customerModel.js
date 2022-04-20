@@ -34,18 +34,24 @@ const fetchAssignmentByFSID = (req) => {
 const updateAssignmentStatus = (status, statusCode, assId) => {
   return route.query(
     `update assignment set assignment_status = '${status}',
-      status_code = ${statusCode}
+      status_code = '${statusCode}'
         where assignment_identifier = '${assId}'`
   );
 };
 
 const getAssignmentsByTime = (req) => {
+	console.log(`select assignment_id ,assignment_identifier ,assignment_status ,assignment_date ,assignment_time_slot ,assignment_time
+from assignment where field_staff_assigned_fk = '${req.field_staff_id}' and
+(assignment_status = 'Accepted' or assignment_status = 'Next Due') order by assignment_time`);
   return route.query(`select assignment_id ,assignment_identifier ,assignment_status ,assignment_date ,assignment_time_slot ,assignment_time 
 from assignment where field_staff_assigned_fk = '${req.field_staff_id}' and 
 (assignment_status = 'Accepted' or assignment_status = 'Next Due') order by assignment_time`);
 }
 
 const updateAllAssignmentStatus = (whereClause) => {
+	console.log(`UPDATE assignment
+SET assignment_status='Accepted', status_code = 1
+WHERE ${whereClause}`);
   return route.query(`UPDATE assignment
 SET assignment_status='Accepted', status_code = 1
 WHERE ${whereClause}`);

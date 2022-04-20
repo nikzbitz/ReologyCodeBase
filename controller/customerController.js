@@ -100,10 +100,11 @@ const updateAssignmentStatus = async (req, res) => {
           });
 
           let whereClause = arr.join(" OR ");
-
-          const updateAllAssignmentStatus =
+console.log('WHERECLAUSE=> ',whereClause);
+          if(whereClause) {
             await customerModel.updateAllAssignmentStatus(whereClause);
-          if (updateAllAssignmentStatus.affectedRows) {
+          }
+          
             if (req.assignment_status === "Completed") {
               const ratingRes = customerModel.insertRating(req.assignment_identifier);
               if (ratingRes.affectedRows) {
@@ -111,7 +112,6 @@ const updateAssignmentStatus = async (req, res) => {
               }
             }
             res.send(util.AssignStatusUpdateSuccessRes);
-          }
         }
       }
       else {
