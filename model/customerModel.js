@@ -110,9 +110,9 @@ const insertRating = (fsId) => {
 
 const insertCustomerDetails = (req) => {
   return route.query(`INSERT INTO home_inspection.customer (customer_firstname, 
-    customer_lastname,customer_email,customer_phone,customer_address,customer_password) 
+    customer_lastname,customer_email,customer_phone,customer_password) 
     VALUES( '${req.firstName}','${req.lastName}','${req.email}','${req.phone}',
-    ${req.password})`);
+    '${req.password}')`);
 };
 
 
