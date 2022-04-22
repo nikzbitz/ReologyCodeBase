@@ -79,8 +79,8 @@ const fetchServiceDetailsByID = (req) => {
 const insertServiceDetails = (req) => {
   return route.query(
     `UPDATE home_inspection.service_categories SET 
-    service_description='${req.description}', service_spaces = '${req.spaces}',
-    service_components= '${req.components}' 
+    service_description='${req.description}', service_spaces = '${req.spaces.join(',')}',
+    service_components= '${req.components.join(',')}' 
     WHERE service_identifier='${req.serviceIdentifier}'`
   );
 };

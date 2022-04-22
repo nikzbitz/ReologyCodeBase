@@ -126,6 +126,7 @@ const saveService = async (req, res) => {
         res.send({
           statusCode: 200,
           message: "Service added successfully",
+          serviceIdentifier: serviceId
         });
       }
     }
@@ -177,6 +178,7 @@ const getServiceDetailsByID = async (req, res) => {
 const addServiceDetails = async (req, res) => {
   try {
     const addDetailsRes = await adminModel.insertServiceDetails(req);
+    console.log(addDetailsRes);
     if (addDetailsRes.affectedRows) {
       res.send({
         status: 200,
