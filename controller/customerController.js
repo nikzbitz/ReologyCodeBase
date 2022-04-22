@@ -9,12 +9,20 @@ const schedule = require('node-schedule');
 const someDate = new Date();
 //console.log(someDate);
 schedule.scheduleJob('59 07 * * *', () => {
-  declineAssignment('9-1');
+  declineAssignment('9-1', 'Pending');
 });
 
 
 schedule.scheduleJob('59 12 * * *', () => {
-  declineAssignment('2-6');
+  declineAssignment('2-6', 'Pending');
+});
+
+schedule.scheduleJob('30 12 * * *', () => {
+  declineAssignment('9-1', 'Accepted');
+});
+
+schedule.scheduleJob('30 17 * * *', () => {
+  declineAssignment('2-6', 'Accepted');
 });
 
 /**
@@ -169,8 +177,8 @@ const updateAssignmentStatus = async (req, res) => {
 };
 
 
-const declineAssignment = async (time_slot) => {
-  const res = await customerModel.updateDeclinedStatus(time_slot);
+const declineAssignment = async (time_slot, status) => {
+  const res = await customerModel.updateDeclinedStatus(time_slot, status);
   console.log(`The assigment has been declined`);
 }
 

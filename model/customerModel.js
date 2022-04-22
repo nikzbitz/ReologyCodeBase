@@ -51,17 +51,12 @@ SET assignment_status='Accepted', status_code = 1
 WHERE ${whereClause}`);
 };
 
-const updateDeclinedStatus = (time_slot) => {
-  console.log(`UPDATE assignment
-SET assignment_status='Declined', status_code = 2
-WHERE assignment_date = '${new Date().toISOString().split('T')[0]}'
-and assignment_time_slot = '${time_slot}'
-and assignment_status = 'Pending'`);
+const updateDeclinedStatus = (time_slot,status) => {
   return route.query(`UPDATE assignment
 SET assignment_status='Declined', status_code = 2
 WHERE assignment_date = '${new Date().toISOString().split('T')[0]}'
 and assignment_time_slot = '${time_slot}'
-and assignment_status = 'Pending'`);
+and assignment_status = '${status}'`);
 };
 
 
@@ -79,7 +74,15 @@ const fetchFSDetailsByID = (req) => {
 
 const fetchAvailableFS = (req) => {
   return route.query(
-    `select *  from field_staff fs
+    `select field_staff_id, field_staff_empId, field_staff_salutation, 
+    field_staff_firstname, field_staff_middlename, field_staff_lastname, field_staff_ssn, 
+    field_staff_address_line1, field_staff_address_line2, field_staff_address_line3, 
+    field_staff_zipcode, field_staff_county, field_staff_city, field_staff_state, 
+    field_staff_phone_primary, field_staff_phone_alternate, field_staff_email_id_personal, 
+    field_staff_email_id_official, field_staff_office_address, field_staff_time_slot, 
+    field_staff_location, field_staff_avg_rating, field_staff_assignment_inprogress, 
+    field_staff_assignment_declined, field_staff_assignment_pending, 
+    field_staff_assignment_completed  from field_staff fs
 where fs.field_staff_zipcode = ${req.zipCode}  and 
 NOT EXISTS
 (select field_staff_assigned_fk  from assignment a
