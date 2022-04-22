@@ -140,6 +140,10 @@ const getAllServices = async (req, res) => {
   try {
     const serviceDetails = await adminModel.fetchAllServices();
     res.send(serviceDetails.map(element => {
+      element.service_spaces = element.service_spaces ? element.service_spaces.split(',') :
+        element.service_spaces;
+      element.service_components = element.service_components ? element.service_components.split(',')
+        : element.service_components;
       return util.modifyKeys(keysMap.serviceKeys, element)
     }));
   } catch (error) {
@@ -163,6 +167,10 @@ const getServiceDetailsByID = async (req, res) => {
   try {
     const serviceDetails = await adminModel.fetchServiceDetailsByID(req);
     const serviceDetailsRes = serviceDetails.map(element => {
+      element.service_spaces = element.service_spaces ? element.service_spaces.split(',') :
+        element.service_spaces;
+      element.service_components = element.service_components ? element.service_components.split(',')
+        : element.service_components;
       return util.modifyKeys(keysMap.serviceKeys, element)
     });
     res.send({
