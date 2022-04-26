@@ -124,7 +124,7 @@ const updateCustomerRes = (custId, lastInsertedId) => {
     customer_identifier='${custId}' WHERE customer_id=${lastInsertedId}`);
 };
 
-const checkAuthenticatedUser = (req) => {
+const checkAuthenticatedCustomer = (req) => {
   return route.query(`select customer_id,customer_identifier,customer_firstname,customer_lastname,
   customer_email,customer_phone from home_inspection.customer where 
   customer_phone = '${req.phone}' and customer_password = '${req.password}'`);
@@ -132,7 +132,13 @@ const checkAuthenticatedUser = (req) => {
 
 const updateFSPassword = (req) => {
   return route.query(`update home_inspection.field_staff SET 
-  field_staff_password = '${req.password}' where field_staff_empId = '${req.fieldStaffId}'`);
+  field_staff_password = '${req.password}' where field_staff_empId = '${req.fieldStaffId}'
+  and field_staff_email_id_official = '${req.fieldStaffEmail}'`);
+};
+
+const checkAuthenticatedFS = (req) => {
+  return route.query(`select * from home_inspection.field_staff where 
+  field_staff_empId = '${req.fieldStaffId}' and field_staff_password = '${req.password}'`);
 };
 
 
@@ -152,5 +158,6 @@ module.exports.increaseAssignmentNumber = increaseAssignmentNumber;
 module.exports.reduceAssignmentNumber = reduceAssignmentNumber;
 module.exports.insertCustomerDetails = insertCustomerDetails;
 module.exports.updateCustomerRes = updateCustomerRes;
-module.exports.checkAuthenticatedUser = checkAuthenticatedUser;
+module.exports.checkAuthenticatedCustomer = checkAuthenticatedCustomer;
 module.exports.updateFSPassword = updateFSPassword;
+module.exports.checkAuthenticatedFS = checkAuthenticatedFS;
