@@ -211,11 +211,16 @@ const saveFSPassword = async (req, res) => {
     if (updateQueryRes.affectedRows) {
       res.send({
         status: 200,
-        message: "Password updated successfully",
+        message: "Password saved successfully",
+      });
+    } else {
+      res.send({
+        status: 200,
+        message: "The employee ID or email you entered is incorrect",
       });
     }
   } catch (error) {
-    console.log(`update password error is `, error);
+    console.log(`save password error is `, error);
   }
 };
 
@@ -270,7 +275,8 @@ const fieldStaffLogin = async (req, res) => {
   if (authenticatedUserDetails.length) {
     res.send({
       "status": 200,
-      "message": "Field Staff logged in successfully"
+      "message": "Field Staff logged in successfully",
+      "data": util.modifyKeys(keysMap.fieldStaffKeys, authenticatedUserDetails[0])
     })
   } else {
     res.send({

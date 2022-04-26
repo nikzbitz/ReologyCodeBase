@@ -132,7 +132,8 @@ const checkAuthenticatedCustomer = (req) => {
 
 const updateFSPassword = (req) => {
   return route.query(`update home_inspection.field_staff SET 
-  field_staff_password = '${req.password}' where field_staff_empId = '${req.fieldStaffId}'`);
+  field_staff_password = '${req.password}' where field_staff_empId = '${req.fieldStaffId}'
+  and field_staff_email_id_official = '${req.fieldStaffEmail}'`);
 };
 
 const checkAuthenticatedFS = (req) => {
