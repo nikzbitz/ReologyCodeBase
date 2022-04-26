@@ -211,11 +211,16 @@ const saveFSPassword = async (req, res) => {
     if (updateQueryRes.affectedRows) {
       res.send({
         status: 200,
-        message: "Password updated successfully",
+        message: "Password saved successfully",
+      });
+    } else {
+      res.send({
+        status: 200,
+        message: "The employee ID or email you entered is incorrect",
       });
     }
   } catch (error) {
-    console.log(`update password error is `, error);
+    console.log(`save password error is `, error);
   }
 };
 
@@ -248,7 +253,7 @@ const saveCustomerDetails = async (req, res) => {
 
 
 const customerLogin = async (req, res) => {
-  const authenticatedUserDetails = await customerModel.checkAuthenticatedUser(req);
+  const authenticatedUserDetails = await customerModel.checkAuthenticatedCustomer(req);
   console.log(authenticatedUserDetails);
   if (authenticatedUserDetails.length) {
     res.send({
@@ -264,6 +269,24 @@ const customerLogin = async (req, res) => {
   }
 }
 
+const fieldStaffLogin = async (req, res) => {
+  const authenticatedUserDetails = await customerModel.checkAuthenticatedFS(req);
+  console.log(authenticatedUserDetails);
+  if (authenticatedUserDetails.length) {
+    res.send({
+      "status": 200,
+      "message": "Field Staff logged in successfully",
+      "data": util.modifyKeys(keysMap.fieldStaffKeys, authenticatedUserDetails[0])
+    })
+  } else {
+    res.send({
+      "status": 200,
+      "message": "The employee ID or password you entered is incorrect"
+    })
+  }
+
+}
+
 //const getFSDetailsByID
 module.exports.saveAssignmentDetails = saveAssignmentDetails;
 module.exports.getAssignmentByFSID = getAssignmentByFSID;
@@ -274,3 +297,4 @@ module.exports.getAvailableFS = getAvailableFS;
 module.exports.saveCustomerDetails = saveCustomerDetails;
 module.exports.customerLogin = customerLogin;
 module.exports.saveFSPassword = saveFSPassword;
+module.exports.fieldStaffLogin = fieldStaffLogin;
