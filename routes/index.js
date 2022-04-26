@@ -49,6 +49,7 @@ router.get("/customerLogout", (req, res) => res.send({
   "status": 200,
   "message": 'Customer logged out successfully'
 }));
+router.post("/fieldStaffLogin", (req, res) => customerController.fieldStaffLogin(req.body, res));
 
 
 module.exports.router = router;

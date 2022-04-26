@@ -248,7 +248,7 @@ const saveCustomerDetails = async (req, res) => {
 
 
 const customerLogin = async (req, res) => {
-  const authenticatedUserDetails = await customerModel.checkAuthenticatedUser(req);
+  const authenticatedUserDetails = await customerModel.checkAuthenticatedCustomer(req);
   console.log(authenticatedUserDetails);
   if (authenticatedUserDetails.length) {
     res.send({
@@ -264,6 +264,23 @@ const customerLogin = async (req, res) => {
   }
 }
 
+const fieldStaffLogin = async (req, res) => {
+  const authenticatedUserDetails = await customerModel.checkAuthenticatedFS(req);
+  console.log(authenticatedUserDetails);
+  if (authenticatedUserDetails.length) {
+    res.send({
+      "status": 200,
+      "message": "Field Staff logged in successfully"
+    })
+  } else {
+    res.send({
+      "status": 200,
+      "message": "The employee ID or password you entered is incorrect"
+    })
+  }
+
+}
+
 //const getFSDetailsByID
 module.exports.saveAssignmentDetails = saveAssignmentDetails;
 module.exports.getAssignmentByFSID = getAssignmentByFSID;
@@ -274,3 +291,4 @@ module.exports.getAvailableFS = getAvailableFS;
 module.exports.saveCustomerDetails = saveCustomerDetails;
 module.exports.customerLogin = customerLogin;
 module.exports.saveFSPassword = saveFSPassword;
+module.exports.fieldStaffLogin = fieldStaffLogin;
