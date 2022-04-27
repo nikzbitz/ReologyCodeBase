@@ -132,7 +132,8 @@ const checkAuthenticatedCustomer = (req) => {
 
 const updateFSPassword = (req) => {
   return route.query(`update home_inspection.field_staff SET 
-  field_staff_password = '${req.password}' where field_staff_empId = '${req.fieldStaffId}'
+  field_staff_password = '${req.password}', is_password_set = 1
+   where field_staff_empId = '${req.fieldStaffId}'
   and field_staff_email_id_official = '${req.fieldStaffEmail}'`);
 };
 
@@ -140,6 +141,13 @@ const checkAuthenticatedFS = (req) => {
   return route.query(`select * from home_inspection.field_staff where 
   field_staff_empId = '${req.fieldStaffId}' and field_staff_password = '${req.password}'`);
 };
+
+
+const checkPasswordSet = (req) => {
+  return route.query(`select is_password_set from home_inspection.field_staff where 
+  field_staff_empId = '${req.fieldStaffId}'`);
+};
+
 
 
 module.exports.insertAssignmentDetails = insertAssignmentDetails;
@@ -161,3 +169,4 @@ module.exports.updateCustomerRes = updateCustomerRes;
 module.exports.checkAuthenticatedCustomer = checkAuthenticatedCustomer;
 module.exports.updateFSPassword = updateFSPassword;
 module.exports.checkAuthenticatedFS = checkAuthenticatedFS;
+module.exports.checkPasswordSet = checkPasswordSet;

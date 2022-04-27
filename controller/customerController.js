@@ -206,17 +206,26 @@ const getAvailableFS = async (req, res) => {
 
 const saveFSPassword = async (req, res) => {
   try {
-    const updateQueryRes = await customerModel.updateFSPassword(req);
-    console.log(updateQueryRes.affectedRows);
-    if (updateQueryRes.affectedRows) {
-      res.send({
-        status: 200,
-        message: "Password saved successfully",
-      });
+    const [isPasswordSet] = await customerModel.checkPasswordSet(req);
+    console.log('isPasswordSet', isPasswordSet.is_password_set);
+    if (!isPasswordSet.is_password_set) {
+      const updateQueryRes = await customerModel.updateFSPassword(req);
+      console.log(updateQueryRes.affectedRows);
+      if (updateQueryRes.affectedRows) {
+        res.send({
+          status: 200,
+          message: "Password saved successfully",
+        });
+      } else {
+        res.send({
+          status: 200,
+          message: "The employee ID or email you entered is incorrect",
+        });
+      }
     } else {
       res.send({
         status: 200,
-        message: "The employee ID or email you entered is incorrect",
+        message: "The password has already been set",
       });
     }
   } catch (error) {
