@@ -141,9 +141,9 @@ const getAllServices = async (req, res) => {
     const serviceDetails = await adminModel.fetchAllServices();
     res.send(serviceDetails.map(element => {
       element.service_spaces = element.service_spaces ? element.service_spaces.split(',') :
-        element.service_spaces;
+        [];
       element.service_components = element.service_components ? element.service_components.split(',')
-        : element.service_components;
+        : [];
       return util.modifyKeys(keysMap.serviceKeys, element)
     }));
   } catch (error) {
