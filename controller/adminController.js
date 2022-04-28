@@ -20,7 +20,7 @@ const saveFSDetails = async (req, res) => {
       let s = "00" + lastInsertedId;
       let empId = "F" + s.substr(s.length - 3);
       console.log(`empId`, empId);
-      let field_staff_email_id_official = `${req.field_staff_firstname}.${req.field_staff_lastname}${lastInsertedId}@homeinspection.com`;
+      let field_staff_email_id_official = `${req.fieldStaffFirstName}.${req.fieldStaffLastName}${lastInsertedId}@homeinspection.com`;
       console.log('field_staff_email_id_official', field_staff_email_id_official);
 
       const updateFSRes = await adminModel.updateFSRes(empId, field_staff_email_id_official, lastInsertedId)
