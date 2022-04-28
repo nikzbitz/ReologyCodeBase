@@ -148,6 +148,10 @@ const checkPasswordSet = (req) => {
   field_staff_empId = '${req.fieldStaffId}'`);
 };
 
+const checkEmailPhoneExists = (req) => {
+  return route.query(`select * from home_inspection.customer where 
+  customer_email = '${req.email}' or customer_phone = '${req.phone}'`);
+};
 
 
 module.exports.insertAssignmentDetails = insertAssignmentDetails;
@@ -170,3 +174,4 @@ module.exports.checkAuthenticatedCustomer = checkAuthenticatedCustomer;
 module.exports.updateFSPassword = updateFSPassword;
 module.exports.checkAuthenticatedFS = checkAuthenticatedFS;
 module.exports.checkPasswordSet = checkPasswordSet;
+module.exports.checkEmailPhoneExists = checkEmailPhoneExists;

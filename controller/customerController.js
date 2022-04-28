@@ -235,26 +235,34 @@ const saveFSPassword = async (req, res) => {
 
 const saveCustomerDetails = async (req, res) => {
   try {
-    console.log(req);
+    const isEmailPhoneExist = await customerModel.checkEmailPhoneExists(req);
+    console.log('isEmailPhoneExist', isEmailPhoneExist.length);
+    if (isEmailPhoneExist.length == 0) {
+      const insertQueryRes = await customerModel.insertCustomerDetails(req);
+      console.log(insertQueryRes.affectedRows);
+      if (insertQueryRes.affectedRows) {
+        const [selectIDRes] = await customerModel.selectLatestID();
+        console.log(`ID RESULT===> ${selectIDRes.lastInsertedId}`);
+        let lastInsertedId = selectIDRes.lastInsertedId;
+        let s = "000" + lastInsertedId;
+        let custId = "C" + s.substr(s.length - 4);
+        console.log(`custId`, custId);
 
-    const insertQueryRes = await customerModel.insertCustomerDetails(req);
-    console.log(insertQueryRes.affectedRows);
-    if (insertQueryRes.affectedRows) {
-      const [selectIDRes] = await customerModel.selectLatestID();
-      console.log(`ID RESULT===> ${selectIDRes.lastInsertedId}`);
-      let lastInsertedId = selectIDRes.lastInsertedId;
-      let s = "000" + lastInsertedId;
-      let custId = "C" + s.substr(s.length - 4);
-      console.log(`custId`, custId);
-
-      const updateRes = await customerModel.updateCustomerRes(custId, lastInsertedId);
-      if (updateRes.affectedRows) {
-        res.send({
-          status: 200,
-          message: "Customer added successfully",
-        });
+        const updateRes = await customerModel.updateCustomerRes(custId, lastInsertedId);
+        if (updateRes.affectedRows) {
+          res.send({
+            status: 200,
+            message: "Customer added successfully",
+          });
+        }
       }
+    } else {
+      res.send({
+        status: 200,
+        message: "The email or phone number already exists. Please try again with new email or phone number.",
+      });
     }
+
   } catch (error) {
     console.log(`the error is `, error);
   }
