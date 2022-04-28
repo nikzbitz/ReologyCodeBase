@@ -79,6 +79,8 @@ const getAssignmentByFSID = async (req, res) => {
     resObj.assignmentDetails = assignmentDetails.map((element) => {
       element.property_location = element.property_location ? JSON.parse(element.property_location) :
         { "latitude": "", "longitude": "" };
+      element.contactAddressLocation = element.contactAddressLocation ? JSON.parse(element.contactAddressLocation) :
+        { "latitude": "", "longitude": "" };
       element.service_id_fk = element.service_id_fk ? element.service_id_fk.split(",") :
         element.service_id_fk;
       element.assignment_time = new Date(`${element.assignment_time}`).getTime();
@@ -186,6 +188,10 @@ const declineAssignment = async (time_slot, status) => {
 const getAssignmentById = async (req, res) => {
   const assigmentDetails = await customerModel.fetchAssignmentById(req);
   const assigmentDetailsRes = assigmentDetails.map((element) => {
+    element.property_location = element.property_location ? JSON.parse(element.property_location) :
+      { "latitude": "", "longitude": "" };
+    element.contactAddressLocation = element.contactAddressLocation ? JSON.parse(element.contactAddressLocation) :
+      { "latitude": "", "longitude": "" };
     return util.modifyKeys(keysMap.assignmentKeys, element)
   });
   res.send(assigmentDetailsRes);
