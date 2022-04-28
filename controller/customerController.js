@@ -192,6 +192,8 @@ const getAssignmentById = async (req, res) => {
       { "latitude": "", "longitude": "" };
     element.contactAddressLocation = element.contactAddressLocation ? JSON.parse(element.contactAddressLocation) :
       { "latitude": "", "longitude": "" };
+    element.service_id_fk = element.service_id_fk ? element.service_id_fk.split(",") :
+      element.service_id_fk;
     return util.modifyKeys(keysMap.assignmentKeys, element)
   });
   res.send(assigmentDetailsRes);
