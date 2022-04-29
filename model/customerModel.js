@@ -1,13 +1,13 @@
 const route = require("../routes/index");
 
 const insertAssignmentDetails = (req) => {
+  let propertyAddress = `${req.propertyAddress1 ? req.propertyAddress1 + ' ' : ''}${req.propertyAddress2 ? req.propertyAddress2 + ' ' : ''}${req.propertyAddress3 ? req.propertyAddress3 : ''}`;
   return route.query(`INSERT INTO home_inspection.assignment ( field_staff_assigned_fk,
     assignment_date,assignment_time_slot,assignment_time, name, 
     phone,email,property_address, city, state, code,property_location,property_ownership,
     contact_address_location,service_id_fk,property_id_fk) 
     VALUES( '${req.fieldStaffAssigned}','${req.assignmentDate}','${req.assignmentTimeSlot}',
-    '${req.assignmentTime}', '${req.name}', '${req.phone}','${req.email}','${req.propertyAddress1},
-     ${req.propertyAddress2}, ${req.propertyAddress3}','${req.city}', 
+    '${req.assignmentTime}', '${req.name}', '${req.phone}','${req.email}','${propertyAddress}','${req.city}', 
     '${req.state}', '${req.code}','${req.propertyLocation.split("'").join('"')}',
     ${req.propertyOwnership},'${req.contactAddressLocation.split("'").join('"')}',
      '${req.serviceId.join(",")}','${req.propertyId}')`);
