@@ -33,6 +33,7 @@ router.post("/removeService", (req, res) => adminController.removeService(req.bo
 router.post("/getServiceDetailsByID", (req, res) => adminController.getServiceDetailsByID(req.body, res));
 router.post("/addServiceDetails", (req, res) => adminController.addServiceDetails(req.body, res));
 router.post("/addServiceCost", (req, res) => adminController.addServiceCost(req.body, res));
+router.post("/adminLogin", (req, res) => adminController.adminLogin(req.body, res));
 
 
 //customer module routes

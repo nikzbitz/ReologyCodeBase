@@ -212,6 +212,24 @@ const addServiceCost = async (req, res) => {
   }
 }
 
+const adminLogin = (req, res) => {
+  try {
+    if (req.adminID === 'AD101', req.adminPassword === 'HomeInspectR@101') {
+      res.send({
+        status: 200,
+        data: "Logged in successfully"
+      });
+    } else {
+      res.send({
+        status: 200,
+        data: "The ID or password you entered is incorrect"
+      });
+    }
+  } catch (error) {
+    console.log(`The error is ==> ${error}`);
+  }
+}
+
 
 module.exports.saveFSDetails = saveFSDetails;
 module.exports.getAllFSDetails = getAllFSDetails;
@@ -224,3 +242,4 @@ module.exports.removeService = removeService;
 module.exports.getServiceDetailsByID = getServiceDetailsByID;
 module.exports.addServiceDetails = addServiceDetails;
 module.exports.addServiceCost = addServiceCost;
+module.exports.adminLogin = adminLogin;
